@@ -16,6 +16,6 @@ public class MessageController {
 
     @PostMapping("/message")
     public ResponseMessageDto revertMessage(@RequestBody RequestMessageDto messageDto) {
-        return requestService.revertMessage(messageDto);
+        return requestService.sendAndTrackTime(messageDto);
     }
 }
