@@ -1,0 +1,3 @@
+nats:
+  server: nats://localhost:4222
+  topic: messages
