@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class MessageController {
@@ -15,7 +17,7 @@ public class MessageController {
     private final RequestService requestService;
 
     @PostMapping("/message")
-    public ResponseMessageDto revertMessage(@RequestBody RequestMessageDto messageDto) {
-        return requestService.sendAndTrackTime(messageDto);
+    public ResponseMessageDto revertMessage(@Valid @RequestBody RequestMessageDto messageDto) {
+        return requestService.sendReceiveAndTrackTime(messageDto);
     }
 }

@@ -19,13 +19,13 @@ public class NatsReplyServiceImpl implements ReplyService {
     @Lazy
     private final Connection connection;
     private final UtilService service;
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper;
 
     @Override
     @SneakyThrows
     public void reply(Message message) {
-        String payload = mapper.readValue(message.getData(), String.class);
-        log.info("Message {} received", payload);
-        connection.publish(message.getReplyTo(), mapper.writeValueAsBytes(service.revertString(payload)));
+        String data = mapper.readValue(message.getData(), String.class);
+        log.info("Message '{}' received", data);
+        connection.publish(message.getReplyTo(), mapper.writeValueAsBytes(service.revertString(data)));
     }
 }

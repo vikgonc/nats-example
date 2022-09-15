@@ -1,11 +1,15 @@
 package com.zuzex.natsreply.configuration;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
-@Data
+@Getter
+@ConstructorBinding
+@RequiredArgsConstructor
 @ConfigurationProperties(prefix = "nats")
 public class NatsProperties {
-    private String server;
-    private String topic;
+    private final String server;
+    private final String topic;
 }

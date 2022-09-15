@@ -18,6 +18,8 @@ import java.time.Duration;
 @Service
 @RequiredArgsConstructor
 public class NatsRequestServiceImpl implements RequestService {
+    private static final String NATS_ERROR_MESSAGE = "Nats transfer data failed";
+
     private final Connection connection;
     private final ObjectMapper mapper;
 
@@ -25,15 +27,16 @@ public class NatsRequestServiceImpl implements RequestService {
     private String topic;
 
     @Override
-    public ResponseMessageDto sendAndTrackTime(RequestMessageDto messageDto) {
+    public ResponseMessageDto sendReceiveAndTrackTime(RequestMessageDto messageDto) {
         try {
             long startTime = System.currentTimeMillis();
-            Message byteResponse = connection.request(topic, mapper.writeValueAsBytes(messageDto.getMessage()), Duration.ofMillis(1000));
-            String result = mapper.readValue(byteResponse.getData(), String.class);
-            return new ResponseMessageDto(result, System.currentTimeMillis() - startTime);
+            Message byteReply = connection.request(topic, mapper.writeValueAsBytes(messageDto.getMessage()), Duration.ofMillis(1000));
+            String reply = mapper.readValue(byteReply.getData(), String.class);
+            log.info("Message '{}' received", reply);
+            return new ResponseMessageDto(reply, System.currentTimeMillis() - startTime);
         } catch (Exception ex) {
             log.error(ex.getMessage());
-            throw new NatsException("Nats transfer data error");
+            throw new NatsException(NATS_ERROR_MESSAGE);
         }
     }
 }
