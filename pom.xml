@@ -16,8 +16,30 @@
     <name>nats-example</name>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>nats-request</module>
+        <module>nats-reply</module>
+    </modules>
+
     <properties>
         <java.version>11</java.version>
+        <nats.version>2.15.6</nats.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.nats</groupId>
+                <artifactId>jnats</artifactId>
+                <version>${nats.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <optional>true</optional>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

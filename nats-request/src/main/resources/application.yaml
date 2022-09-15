@@ -1,0 +1,6 @@
+server:
+  port: 8080
+
+nats:
+  server: nats://localhost:4222
+  topic: messages
